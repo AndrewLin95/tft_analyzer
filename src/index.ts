@@ -31,7 +31,7 @@ const createWindow = (): void => {
   mainWindow.setBackgroundColor("rgba(0,0,0,0)");
   mainWindow.webContents.setFrameRate(60);
 
-  mainWindow.setIgnoreMouseEvents(true, { forward: true });
+  // mainWindow.setIgnoreMouseEvents(true, { forward: true });
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 
   mainWindow.maximize();
@@ -41,7 +41,7 @@ const createWindow = (): void => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -63,7 +63,6 @@ app.on("ready", () => {
 ipcMain.on('screenshot:capture', (e, value) => {
   desktopCapturer.getSources({ types: ['screen'], thumbnailSize: {width: mainWidth, height: mainHeight}})
   .then(sources => {
-    console.log(sources);
     const image = sources[0].thumbnail.toDataURL();
     mainWindow.webContents.send("screenshot:captured", image);
   })

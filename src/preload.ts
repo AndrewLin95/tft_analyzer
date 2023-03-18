@@ -2,6 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import { ipcRenderer } from "electron";
+import axios from "axios";
 
 window.addEventListener("DOMContentLoaded", () => {
   console.log('loaded');
@@ -10,7 +11,17 @@ window.addEventListener("DOMContentLoaded", () => {
     ipcRenderer.send("screenshot:capture", {})
   })
 
-  ipcRenderer.on("screenshot:captured", (e, imageData) => {
-    document.getElementById('placeholder').src = imageData;
+  ipcRenderer.on("screenshot:captured", async (e, imageData) => {
+    console.log(imageData);
+
+    const data = await axios({
+      method: 'post',
+      url: 'http://localhost:8080/api/parseData',
+      data: {
+        imagePayloadBase64: imageData
+      }
+    })
+    
+    console.log(data);
   })
 })
