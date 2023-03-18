@@ -11,26 +11,44 @@ if (require("electron-squirrel-startup")) {
 }
 
 const createWindow = (): void => {
-  // Create the browser window.
+  // Create the browser window.  
   const mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
+    transparent: true,
+    frame: false,
+    autoHideMenuBar: true,
+    alwaysOnTop: true,
+    hasShadow: false,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
 
+  mainWindow.setBackgroundColor("rgba(0,0,0,0)");
+  mainWindow.webContents.setFrameRate(60);
+
+  mainWindow.setIgnoreMouseEvents(true, { forward: true });
+  mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+
+  mainWindow.maximize();
+  mainWindow.show();
+
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", createWindow);
+app.on("ready", () => {
+  setTimeout(() => {
+    createWindow();
+  }, 300);
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
