@@ -31,7 +31,7 @@ const createWindow = (): void => {
   mainWindow.setBackgroundColor("rgba(0,0,0,0)");
   mainWindow.webContents.setFrameRate(60);
 
-  // mainWindow.setIgnoreMouseEvents(true, { forward: true });
+  mainWindow.setIgnoreMouseEvents(true, { forward: true });
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 
   mainWindow.maximize();
@@ -41,7 +41,7 @@ const createWindow = (): void => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
